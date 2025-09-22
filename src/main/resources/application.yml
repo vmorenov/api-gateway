@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Opción A (recomendada): autodiscovery OIDC (usa /.well-known/openid-configuration)
+          issuer-uri: http://localhost:9090
+  output:
+    ansi:
+      enabled: ALWAYS
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: notification-service
+              uri: http://localhost:8081
+              predicates:
+                - Path=/notification/**
